@@ -6,11 +6,12 @@ package ana.andrea.dragonball;
 
 /**
  *
- * @author enana14
+ * @author Ana Carbonell Prieto
+ * @author Andrea Pérez Carbonell
  */
-public class Proyecto_DragonBall_Ana_Andrea {
+public class BolaDeDrac {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
     }
 }
