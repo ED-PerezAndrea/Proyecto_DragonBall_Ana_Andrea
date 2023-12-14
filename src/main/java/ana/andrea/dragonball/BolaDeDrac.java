@@ -14,9 +14,11 @@ import java.util.Scanner;
 public class BolaDeDrac {
 
     public static Scanner input;
+    final static String SIGNO_SUMA = "+";
     
     public static void main(String[] args) {
         input = new Scanner(System.in);
+        nivel1(0,30);
         
     }
     
@@ -33,7 +35,7 @@ public class BolaDeDrac {
         return true;
     }
     
-    public static boolean nivel1(){
+    public static int nivel1(int n1, int n2){
         String mensaje = String.format(
                 "Son Goku: Molt bé! Anem a buscar les boles de drac abans que\n"
                 + "Freezer puga tenir-les. --va dir Son-Goku des de la seua casa en el\n"
@@ -50,8 +52,22 @@ public class BolaDeDrac {
                 + "de la vostra casa i el número de la meua? Si l’endevineu, vos donaré\n"
                 + "la bola i m’uniré al vostre equip."
         );
-    return true;
+        n1 = generarNumAleatorio(10, 0);
+        n2 = generarNumAleatorio(30, 20);
+        //n1 = 10; ESTO ERA PROBAR QUE SÍ FUNCIONABA, LO DEJO POR SI
+        //n2 = 20;
+        int resultado = 0;
+
+        for (int x = n1; x <= n2; x++) {
+            System.out.print(x + ((x==n2)?"":SIGNO_SUMA));
+            resultado += x;
+        }
+
+        System.out.println("\n La respuesta correcta seria: " + resultado);
+        return resultado;
+        //FALTARIA LLAMAR AQUÍ AL METODO DE GANAR O NO
     }
+
     
     public static boolean nivel2(){
         String mensaje = String.format(
