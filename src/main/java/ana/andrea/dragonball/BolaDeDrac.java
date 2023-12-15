@@ -22,6 +22,7 @@ public class BolaDeDrac {
     public static void main(String[] args) {
         input = new Scanner(System.in);
         nivel1(0,30);
+        nivel2();
         nivel3();
         
     }
@@ -90,7 +91,21 @@ public class BolaDeDrac {
                 + "cadenes de text” i no veig la solució. Si m’ajudeu a resoldre’l, vos\n"
                 + "donaré la bola. "
         );
+        //B2 = generarNumAleatorio(7, 4);
+        String cadena1 = "erjw3";
+        String cadena2 = "A3q2q";
+        String cadenaResultado = "";
         
+        for(int i = 0; i < cadena1.length(); i++){
+            //System.out.print(cadena2.charAt((cadena2.length()-1)-i));
+            //System.out.print(cadena1.charAt(i));
+          
+            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena2.charAt((cadena2.length()-1)-i)));
+            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena1.charAt(i)));
+            
+            
+        }
+        System.out.println("\nCorresponde a la cadena: " + cadenaResultado);
     return true;
     }
     
