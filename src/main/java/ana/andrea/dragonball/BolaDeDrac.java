@@ -21,13 +21,13 @@ public class BolaDeDrac {
     
     public static void main(String[] args) {
         input = new Scanner(System.in);
-        nivel1(0,30);
+        inicio();
         nivel2();
         nivel3();
         
     }
     
-    public static boolean inicio(){
+    public static void inicio(){
         String mensaje = "BENVINGUTS A L’AVENTURA DE DRAGON BALL\n"
                 + "========================================\n"
                 + "Son-Goku es troba tranquil·lament a casa junt al seu fill Son-Gohan, a\n"
@@ -37,7 +37,10 @@ public class BolaDeDrac {
                 + "7 boles del drac per tal de demanar un desig i obtindre un poder que\n"
                 + "ningú podrà mai parar. El planeta està en perill. El Fullet Tortuga et\n"
                 + "demana ajuda ¿Vols que Son-Goku i Son-Gohan accepten el repte?";
-        return true;
+        if(validacionErrores()== 1){
+            nivel1(0,30);
+        }
+        fin();
     }
     
     public static int nivel1(int n1, int n2){
@@ -181,6 +184,33 @@ public class BolaDeDrac {
         );
         return true;
     }
+    public static void fin(){
+        System.out.println("THE END");
+    }
+            
+            
+    public static int validacionErrores() {
+        do {
+            //System.out.print(respuesta);
+            if (input.hasNextInt()){
+                return input.nextInt();
+            }
+            System.out.println("Error! El tipo de datos introduidos es incorrecto");
+            input.next();
+        } while (true);
+    }
+    
+        public static String validacionErrores(String respuesta) {
+        do {
+            System.out.print(respuesta);
+            if (input.hasNextLine()){
+                return input.nextLine();
+            }
+            System.out.println("Error! El tipo de datos introduidos es incorrecto");
+            input.nextLine();
+        } while (true);
+    }
+    
     
     public static String generarCadena(int largo) {
         StringBuilder cadena = new StringBuilder();
