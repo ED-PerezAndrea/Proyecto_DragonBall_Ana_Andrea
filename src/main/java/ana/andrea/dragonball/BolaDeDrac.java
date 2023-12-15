@@ -74,7 +74,7 @@ public class BolaDeDrac {
     }
 
     
-    public static boolean nivel2(){
+    public static String nivel2(){
         String mensaje = String.format(
                 "Satanàs Cor Petit: Sou uns cracks de les matemàtiques! Pensava que\n"
                 + "només sabíeu lluitar. Ací teniu la bola de b1 estreles. Per cert, tinc el\n"
@@ -91,24 +91,27 @@ public class BolaDeDrac {
                 + "cadenes de text” i no veig la solució. Si m’ajudeu a resoldre’l, vos\n"
                 + "donaré la bola. "
         );
-        //B2 = generarNumAleatorio(7, 4);
-        String cadena1 = "erjw3";
-        String cadena2 = "A3q2q";
+        //StringBuilder cadena = new StringBuilder();
+        //String cadena1 = "erjw3";
+        //String cadena2 = "A3q2q";
+        B2 = generarNumAleatorio(7, 4);
+        
+        String cadena = generarCadena(B2);
+        String cadena2 = generarCadena(B2);
+        
         String cadenaResultado = "";
         
-        for(int i = 0; i < cadena1.length(); i++){
-            //System.out.print(cadena2.charAt((cadena2.length()-1)-i));
-            //System.out.print(cadena1.charAt(i));
-          
-            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena2.charAt((cadena2.length()-1)-i)));
-            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena1.charAt(i)));
-            
-            
+        System.out.println("La mezcla sagrada de las cadenas de caráctes " + cadena + " i " + cadena2);
+        for (int i = 0; i < cadena.length(); i++) {
+           
+            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena2.charAt((cadena2.length() - 1) - i)));
+            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena.charAt(i)));
+
         }
         System.out.println("\nCorresponde a la cadena: " + cadenaResultado);
-    return true;
+        return cadenaResultado;
     }
-    
+
     public static int nivel3() {
         String mensaje = String.format(
                 "Ten Shin Han: Wow! Gràcies, ací teniu la bola de b2 estreles. Per cert,\n"
@@ -177,6 +180,19 @@ public class BolaDeDrac {
                 + "quin és el mínim comú múltiple de b4, b5, b6 i b7 tot haurà acabat."
         );
         return true;
+    }
+    
+    public static String generarCadena(int largo) {
+        StringBuilder cadena = new StringBuilder();
+        do {
+            char random = (char)generarNumAleatorio(122, 48);
+            if (random > 56 && random < 65 || random > 90 && random < 97) {
+                
+                continue;
+            }
+            cadena.append(random);
+        } while (cadena.length() < largo);
+        return cadena.toString();
     }
     
     public static void imprimirMensaje(String mensaje) throws InterruptedException {
