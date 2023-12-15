@@ -17,7 +17,8 @@ public class BolaDeDrac {
     final static String SIGNO_SUMA = "+";
     final static String ASTERISCO = "*";
     final static int numMinFactorial = 1;
-    public static int B1 = 0, B2 = 0, B3 = 0, B4 = 0, B5 = 0, B6 = 0, B7 = 0;
+    final static String VOCALES = "aeiou";
+    public static int B1, B2, B3, B4, B5, B6, B7;
     
     public static void main(String[] args) {
         input = new Scanner(System.in);
@@ -97,7 +98,6 @@ public class BolaDeDrac {
         //StringBuilder cadena = new StringBuilder();
         //String cadena1 = "erjw3";
         //String cadena2 = "A3q2q";
-        B2 = generarNumAleatorio(7, 4);
         
         String cadena = generarCadena(B2);
         String cadena2 = generarCadena(B2);
@@ -134,7 +134,7 @@ public class BolaDeDrac {
                 + "quin és el factorial de b3."
         );
         //B3=5; ESTO ERA PARA PROBAR
-        B3 = generarNumAleatorio(7, 4, B2);
+
         int resultado = numMinFactorial;
         for(int i = B3; i >= numMinFactorial; i--){
             System.out.print(i + ( (i == numMinFactorial)?"":ASTERISCO));
@@ -144,24 +144,43 @@ public class BolaDeDrac {
         return resultado;
     }
     
-    public static boolean nivel4() {
-        String mensaje = String.format(
-                "Boo: Vaja, vos ho he posat realment fácil. Ací teniu la bola. Ara bé, us\n"
-                + "avance que encara teniu un os dur de rosegar. Cèl·lula també les\n"
-                + "buscava i vaig escoltar en la tele que ja tenia unes quantes recollides.\n"
-                + "Si no recorde mal, el vaig sentir a les notícies del canal número N de\n"
-                + "la meua televisió.\n"
-                + "Van sintonitzar el canal N i van confirmar que Cèl·lula es trobava en\n"
-                + "“Ciutat Nova”. Ràpidament van anar a enfrontar-se amb ell i així\n"
-                + "aconseguir les boles que tenia en el seu poder.\n"
-                + "Son Gohan: Hola Cèl·lula, no volem problemes amb tu. Per favor,\n"
-                + "dona'ns les teues boles de drac i no et farem mal.\n"
-                + "Cèl·lula: Jajaja. He entrenat des de l'última lluita i ara no podreu amb\n"
-                + "mi i, per descomptat, no podreu llevar-me les boles del drac que tinc\n"
-                + "guardades a aquesta caixa. Juguem a un joc, la caixa té una\n"
-                + "contrasenya, però l’única manera d’aconseguir-la és desxifrant\n"
-                + "aquesta endevinalla, juguem?"
+    public static boolean nivel4() throws InterruptedException {
+        int n = generarNumAleatorio(8, 12);
+        String mensaje = String.format("""
+                                       Boo: Vaja, vos ho he posat realment fácil. Ací teniu la bola. Ara bé, us\n"
+                                       avance que encara teniu un os dur de rosegar. Cèl·lula també les\n"
+                                       buscava i vaig escoltar en la tele que ja tenia unes quantes recollides.\n"
+                                       "Si no recorde mal, el vaig sentir a les notícies del canal número %d de\n"
+                                       "la meua televisió.\n"
+                                       "Van sintonitzar el canal %d i van confirmar que Cèl·lula es trobava en\n"
+                                       "“Ciutat Nova”. Ràpidament van anar a enfrontar-se amb ell i així\n"
+                                       "aconseguir les boles que tenia en el seu poder.\n"
+                                       "Son Gohan: Hola Cèl·lula, no volem problemes amb tu. Per favor,\n"
+                                       "dona'ns les teues boles de drac i no et farem mal.\n"
+                                       "Cèl·lula: Jajaja. He entrenat des de l'última lluita i ara no podreu amb\n"
+                                       "mi i, per descomptat, no podreu llevar-me les boles del drac que tinc\n"
+                                       "guardades a aquesta caixa. Juguem a un joc, la caixa té una\n"
+                                       "contrasenya, però l’única manera d’aconseguir-la és desxifrant\n"
+                                       "aquesta endevinalla, juguem?
+                                       """, n, n
         );
+        System.out.println(mensaje);
+        
+        String cadena1 = generarCadena(n);
+        String cadena2 = generarCadena(n);
+        String cadena3 = generarCadena(n);
+        
+        String cadenas = String.format("""
+                          Cadena 1: %s
+                          Cadena 2: %s
+                          Cadena 3: %s
+                          """, cadena1, cadena2, cadena3);
+        
+        System.out.println(cadenas);
+        
+        String cadena = generarCadena(2);
+        System.out.println(cadena);
+        
         return true;
     }
     
@@ -212,7 +231,17 @@ public class BolaDeDrac {
     }
     
     
-    public static String generarCadena(int largo) {
+    public static void generarBolas() {
+        B1 = generarNumAleatorio(3, 1);
+        B2 = generarNumAleatorio(7, 4);
+        B3 = generarNumAleatorio(7, 4, B2);
+        B4 = generarNumAleatorio(7, 4, B2, B3);
+        B5 = generarNumAleatorio(7, 4, B2, B3, B4);
+        B6 = generarNumAleatorio(3, 1, B1);
+        B7 = generarNumAleatorio(3, 1, B1, B6);
+    }
+    
+    public static String generarCadenaASCII(int largo) {
         StringBuilder cadena = new StringBuilder();
         do {
             char random = (char)generarNumAleatorio(122, 48);
@@ -225,11 +254,13 @@ public class BolaDeDrac {
         return cadena.toString();
     }
     
-    public static void imprimirMensaje(String mensaje) throws InterruptedException {
-        for (int i = 0; i < mensaje.length(); i++) {
-            System.out.println(mensaje.charAt(i));
-            Thread.sleep(1);
-        }
+    public static String generarCadena(int largo) {
+        StringBuilder cadena = new StringBuilder();
+        do {
+            int random = generarNumAleatorio(VOCALES.length() - 1, 0);
+            cadena.append(VOCALES.charAt(random));
+        } while (cadena.length() < largo);
+        return cadena.toString();
     }
     
     public static int generarNumAleatorio(int max, int min){
@@ -259,5 +290,12 @@ public class BolaDeDrac {
             numero = generarNumAleatorio(max, min);
         } while (numero == num1 || numero == num2 || numero == num3);
         return numero;
+    }
+    
+    public static void imprimirMensaje(String mensaje) throws InterruptedException {
+        for (int i = 0; i < mensaje.length(); i++) {
+            System.out.print(mensaje.charAt(i));
+            Thread.sleep(10);
+        }
     }
 }
