@@ -15,10 +15,14 @@ public class BolaDeDrac {
 
     public static Scanner input;
     final static String SIGNO_SUMA = "+";
+    final static String ASTERISCO = "*";
+    final static int numMinFactorial = 1;
+    public static int B1 = 0, B2 = 0, B3 = 0, B4 = 0, B5 = 0, B6 = 0, B7 = 0;
     
     public static void main(String[] args) {
         input = new Scanner(System.in);
         nivel1(0,30);
+        nivel3();
         
     }
     
@@ -63,7 +67,7 @@ public class BolaDeDrac {
             resultado += x;
         }
 
-        System.out.println("\n La respuesta correcta seria: " + resultado);
+        System.out.println("\nLa respuesta correcta seria: " + resultado);
         return resultado;
         //FALTARIA LLAMAR AQUÍ AL METODO DE GANAR O NO
     }
@@ -86,10 +90,11 @@ public class BolaDeDrac {
                 + "cadenes de text” i no veig la solució. Si m’ajudeu a resoldre’l, vos\n"
                 + "donaré la bola. "
         );
+        
     return true;
     }
     
-    public static boolean nivel3() {
+    public static int nivel3() {
         String mensaje = String.format(
                 "Ten Shin Han: Wow! Gràcies, ací teniu la bola de b2 estreles. Per cert,\n"
                 + "vaig saber que el nostre enemic Boo va trobar una bola de drac en la\n"
@@ -107,7 +112,15 @@ public class BolaDeDrac {
                 + "només vos la donaré si em dieu la resposta correcta a la solució de\n"
                 + "quin és el factorial de b3."
         );
-        return true;
+        //B3=5; ESTO ERA PARA PROBAR
+        B3 = generarNumAleatorio(7, 4, B2);
+        int resultado = numMinFactorial;
+        for(int i = B3; i >= numMinFactorial; i--){
+            System.out.print(i + ( (i == numMinFactorial)?"":ASTERISCO));
+            resultado *=i;
+        }
+        System.out.println("\nEl resultado es: " + resultado);
+        return resultado;
     }
     
     public static boolean nivel4() {
