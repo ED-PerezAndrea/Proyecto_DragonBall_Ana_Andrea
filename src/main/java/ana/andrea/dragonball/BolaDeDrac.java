@@ -32,46 +32,18 @@ public class BolaDeDrac {
     }
 
     private static boolean iniciarNiveles() throws InterruptedException {
-        int nivel = 0;
-        switch (nivel) {
-            case 0 :
-                if (mostrarInicio()) {
-                    nivel++;
-                } else break;
-
-            case 1 :
-                if (mostrarNivel1()) {
-                    nivel++;
-                } else break;
-
-            case 2 :
-                if (mostrarNivel2()) {
-                    nivel++;
-                } else break;
-
-            case 3 :
-                if (mostrarNivel3()) {
-                    nivel++;
-                } else break;
-
-            case 4 :
-                if (mostrarNivel4()) {
-                    nivel++;
-                } else break;
-            
-            case 5 :
-                if (mostrarNivel5()) {
-                    return true;
-                } else break;
-        }
-
-        return false;
+        if (!mostrarInicio()) return false;
+        if (!mostrarNivel1()) return false;
+        if (!mostrarNivel2()) return false;
+        if (!mostrarNivel3()) return false;
+        if (!mostrarNivel4()) return false;
+        return mostrarNivel5();
     }
 
     private static boolean mostrarInicio() {
         String mensaje = Mensaje.INICIO;
         System.out.println(mensaje);
-        return validarRespuesta(pedirEntero("Introdueix un 1 vols que l'accepten: "), 1);
+        return iniciarIntentos("Introdueix un 1 vols que l'accepten: ", 1);
     }
 
     private static boolean mostrarNivel1() {
@@ -99,8 +71,8 @@ public class BolaDeDrac {
         //String cadena1 = "erjw3";
         //String cadena2 = "A3q2q";
 
-        String cadena = generarCadenaVocales(b2);
-        String cadena2 = generarCadenaVocales(b2);
+        String cadena = generarCadenaAlfanumerica(b2);
+        String cadena2 = generarCadenaAlfanumerica(b2);
 
         String cadenaResultado = "";
 
@@ -154,10 +126,10 @@ public class BolaDeDrac {
     private static boolean mostrarNivel5() {
         String mensaje = String.format(Mensaje.LVL5, b4, b5, b6, b7, b4, b5, b6, b7);
         System.out.println(mensaje);
-        int respuesta = calcularMCM(b4, b5);
-        respuesta = calcularMCM(respuesta, b6);
-        respuesta = calcularMCM(respuesta, b7);
-        return validarRespuesta(pedirEntero(mensaje), respuesta);
+        int resultado = calcularMCM(b4, b5);
+        resultado = calcularMCM(resultado, b6);
+        resultado = calcularMCM(resultado, b7);
+        return iniciarIntentos("MCM: ", resultado);
     }
     
     private static void mostrarFinal(boolean haGanado) {
@@ -167,6 +139,24 @@ public class BolaDeDrac {
             System.out.println("Malauradament, la aventura ha acabat i el món torna a ser un lloc insegur. Una llàstima!");
         }
         System.out.println("Adéu.");
+    }
+    
+    private static boolean iniciarIntentos(String mensaje, int resultado) {
+        for (int i = 0; i < NUM_INTENTOS; i++) {
+            if (validarRespuesta(pedirEntero(mensaje), resultado)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private static boolean iniciarIntentos(String mensaje, String resultado) {
+        for (int i = 0; i < NUM_INTENTOS; i++) {
+            if (validarRespuesta(pedirCadena(mensaje), resultado)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static int calcularMCM(int a, int b) {
@@ -207,16 +197,16 @@ public class BolaDeDrac {
         } while (true);
     }
 
-    private static boolean validarRespuesta(int respuesta, int correcta) {
-        if (respuesta == correcta) {
+    private static boolean validarRespuesta(int respuesta, int resultado ){
+        if (respuesta == resultado) {
             return true;
         }
         System.out.println("Resposta incorrecta. Torna a intentar-ho.");
         return false;
     }
 
-    private static boolean validarRespuesta(String respuesta, String correcta) {
-        if (respuesta.equals(correcta)) {
+    private static boolean validarRespuesta(String respuesta, String resultado) {
+        if (respuesta.equals(resultado)) {
             return true;
         }
         System.out.println("Resposta incorrecta. Torna a intentar-ho.");
