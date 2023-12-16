@@ -19,6 +19,7 @@ public class BolaDeDrac {
     final static int numMinFactorial = 1;
     final static String VOCALES = "aeiou";
     public static int B1, B2, B3, B4, B5, B6, B7;
+    final static int NUM_INTENTOS = 3;
     
     public static void main(String[] args) {
         input = new Scanner(System.in);
@@ -28,7 +29,7 @@ public class BolaDeDrac {
         
     }
     
-    public static void inicio(){
+    public static boolean inicio(){
         String mensaje = "BENVINGUTS A L’AVENTURA DE DRAGON BALL\n"
                 + "========================================\n"
                 + "Son-Goku es troba tranquil·lament a casa junt al seu fill Son-Gohan, a\n"
@@ -42,9 +43,10 @@ public class BolaDeDrac {
             nivel1(0,30);
         }
         fin();
+        return true;
     }
     
-    public static int nivel1(int n1, int n2){
+    public static boolean nivel1(int n1, int n2){
         String mensaje = String.format(
                 "Son Goku: Molt bé! Anem a buscar les boles de drac abans que\n"
                 + "Freezer puga tenir-les. --va dir Son-Goku des de la seua casa en el\n"
@@ -73,12 +75,12 @@ public class BolaDeDrac {
         }
 
         System.out.println("\nLa respuesta correcta seria: " + resultado);
-        return resultado;
+        return true;
         //FALTARIA LLAMAR AQUÍ AL METODO DE GANAR O NO
     }
 
     
-    public static String nivel2(){
+    public static boolean nivel2(){
         String mensaje = String.format(
                 "Satanàs Cor Petit: Sou uns cracks de les matemàtiques! Pensava que\n"
                 + "només sabíeu lluitar. Ací teniu la bola de b1 estreles. Per cert, tinc el\n"
@@ -95,7 +97,6 @@ public class BolaDeDrac {
                 + "cadenes de text” i no veig la solució. Si m’ajudeu a resoldre’l, vos\n"
                 + "donaré la bola. "
         );
-        //StringBuilder cadena = new StringBuilder();
         //String cadena1 = "erjw3";
         //String cadena2 = "A3q2q";
         
@@ -112,10 +113,10 @@ public class BolaDeDrac {
 
         }
         System.out.println("\nCorresponde a la cadena: " + cadenaResultado);
-        return cadenaResultado;
+        return true;
     }
 
-    public static int nivel3() {
+    public static boolean nivel3() {
         String mensaje = String.format(
                 "Ten Shin Han: Wow! Gràcies, ací teniu la bola de b2 estreles. Per cert,\n"
                 + "vaig saber que el nostre enemic Boo va trobar una bola de drac en la\n"
@@ -141,7 +142,7 @@ public class BolaDeDrac {
             resultado *=i;
         }
         System.out.println("\nEl resultado es: " + resultado);
-        return resultado;
+        return true;
     }
     
     public static boolean nivel4() throws InterruptedException {
@@ -205,6 +206,60 @@ public class BolaDeDrac {
     }
     public static void fin(){
         System.out.println("THE END");
+    }
+    
+    public static void intentos() throws InterruptedException {
+       
+        int nivel = 0;
+        do{
+             boolean haAcertado = false;
+            for (int i = 0; i < NUM_INTENTOS; i++) {
+                switch (nivel) {
+                    case 1:
+                        if (nivel1(0, 30)) {
+                            nivel++;
+                            haAcertado = true;
+                        }
+                        break;
+
+                    case 2:
+                        if (nivel2()) {
+                            nivel++;
+                             haAcertado = true;
+                        }
+                        break;
+
+                    case 3:
+                        if (nivel3()) {
+                            nivel++;
+                             haAcertado = true;
+                        }
+                        break;
+
+                    case 4:
+                        if (nivel4()) {
+                            nivel++;
+                             haAcertado = true;
+                        }
+                        break;
+                    case 5:
+                        if (nivel5()) {
+                            //ha ganado
+                        }
+                        break;
+                    default:
+                        if (inicio()) {
+                            nivel++;
+                             haAcertado = true;
+                        }
+                }
+                if (haAcertado){
+                break;}
+            }
+            if(!haAcertado && nivel == 5){
+            //llamar a has perdido
+            }
+        }while(true);
     }
             
             
