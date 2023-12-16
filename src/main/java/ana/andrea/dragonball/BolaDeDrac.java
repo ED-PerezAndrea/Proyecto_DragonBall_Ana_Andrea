@@ -25,13 +25,22 @@ public class BolaDeDrac {
         iniciarPartida();
     }
 
+    /**
+     * Comienza una nueva partida del juego
+     */
     private static void iniciarPartida() throws InterruptedException {
         generarBolas();
-        mostrarFinal(iniciarNiveles());
+        if (mostrarInicio()) {
+            mostrarResultado(iniciarNiveles());
+        }
+        finalizarPartida();
     }
 
+    /**
+     * Realiza las llamadas a los niveles
+     * @return si ha ganado o no
+     */
     private static boolean iniciarNiveles() throws InterruptedException {
-        if (!mostrarInicio()) return false;
         if (!mostrarNivel1()) return false;
         if (!mostrarNivel2()) return false;
         if (!mostrarNivel3()) return false;
@@ -39,12 +48,20 @@ public class BolaDeDrac {
         return mostrarNivel5();
     }
 
+    /**
+     * Muestra por pantalla el mensaje de inicio del juego
+     * @return si inicia partida o no
+     */
     private static boolean mostrarInicio() {
         String mensaje = Mensaje.INICIO;
         System.out.println(mensaje);
-        return iniciarIntentos("Introdueix un 1 vols que l'accepten: ", 1);
+        return pedirEntero("Introdueix un 1 si vols que l'accepten: ") == 1;
     }
 
+    /**
+     * Muestra por pantalla el nivel 1 y realiza los métodos para obtener el resultado
+     * @return si pasa de nivel o no
+     */
     private static boolean mostrarNivel1() {
         int n1 = generarNumAleatorio(10, 0);
         int n2 = generarNumAleatorio(30, 20);
@@ -63,6 +80,10 @@ public class BolaDeDrac {
         return iniciarIntentos("Sumatorio: ", resultado);
     }
 
+    /**
+     * Muestra por pantalla el nivel 2 y realiza los métodos para obtener el resultado
+     * @return si pasa de nivel o no
+     */
     private static boolean mostrarNivel2() {
         String mensaje = String.format(Mensaje.LVL2, b1, b2);
         System.out.println(mensaje);
@@ -86,6 +107,10 @@ public class BolaDeDrac {
         return iniciarIntentos("Cadena: ", cadenaResultado);
     }
 
+    /**
+     * Muestra por pantalla el nivel 3 y realiza los métodos para obtener el resultado
+     * @return si pasa de nivel o no
+     */
     private static boolean mostrarNivel3() {
         String mensaje = String.format(Mensaje.LVL3, b2, b3, b3);
         System.out.println(mensaje);
@@ -100,6 +125,10 @@ public class BolaDeDrac {
         return iniciarIntentos("Numero Factorial: ", resultado);
     }
 
+    /**
+     * Muestra por pantalla el nivel 4 y realiza los métodos para obtener el resultado
+     * @return si pasa de nivel o no
+     */
     private static boolean mostrarNivel4() throws InterruptedException {
         int n = generarNumAleatorio(8, 12);
         String mensaje = String.format(Mensaje.LVL4, n, n);
@@ -123,6 +152,10 @@ public class BolaDeDrac {
         return iniciarIntentos("Vocales repetidas: ", cadena);
     }
 
+    /**
+     * Muestra por pantalla el nivel 5 y realiza los métodos para obtener el resultado
+     * @return si pasa de nivel o no
+     */
     private static boolean mostrarNivel5() {
         String mensaje = String.format(Mensaje.LVL5, b4, b5, b6, b7, b4, b5, b6, b7);
         System.out.println(mensaje);
@@ -132,15 +165,24 @@ public class BolaDeDrac {
         return iniciarIntentos("MCM: ", resultado);
     }
     
-    private static void mostrarFinal(boolean haGanado) {
+    /**
+     * Imprime por pantalla el mensaje final dependiendo del resultado de la partida
+     * @param haGanado resultado partida
+     */
+    private static void mostrarResultado(boolean haGanado) {
         if (haGanado) {
             System.out.println("Enhorabona!! Heu aconseguit les 7 boles de Drac. El món torna a respirar tranquil. Fins un altra amics!");
         } else {
             System.out.println("Malauradament, la aventura ha acabat i el món torna a ser un lloc insegur. Una llàstima!");
         }
-        System.out.println("Adéu.");
     }
     
+    /**
+     * Comienza el número de intentos para que el usuario acierte el nivel
+     * @param mensaje texto a mostrar por pantalla
+     * @param resultado entero correcto
+     * @return si ha acertado o no
+     */
     private static boolean iniciarIntentos(String mensaje, int resultado) {
         for (int i = 0; i < NUM_INTENTOS; i++) {
             if (validarRespuesta(pedirEntero(mensaje), resultado)) {
@@ -150,6 +192,12 @@ public class BolaDeDrac {
         return false;
     }
     
+    /**
+     * Comienza el número de intentos para que el usuario acierte el nivel
+     * @param mensaje texto a mostrar por pantalla
+     * @param resultado cadena correcta
+     * @return si ha acertado o no
+     */
     private static boolean iniciarIntentos(String mensaje, String resultado) {
         for (int i = 0; i < NUM_INTENTOS; i++) {
             if (validarRespuesta(pedirCadena(mensaje), resultado)) {
@@ -158,7 +206,20 @@ public class BolaDeDrac {
         }
         return false;
     }
+    
+    /**
+     * Muestra por pantalla una despedida
+     */
+    private static void finalizarPartida() {
+        System.out.println("Adéu.");
+    }
 
+    /**
+     * Calcula el mínimo común múltiplo de dos números
+     * @param a número 1
+     * @param b número 2
+     * @return mcm resultante
+     */
     private static int calcularMCM(int a, int b) {
         int num1 = a;
         int num2 = b;
@@ -175,6 +236,11 @@ public class BolaDeDrac {
         return a * b / num1;
     }
 
+    /**
+     * Pide al usuario que inserte un entero
+     * @param mensaje texto a mostrar por pantalla
+     * @return entero del usuario
+     */
     private static int pedirEntero(String mensaje) {
         do {
             System.out.print(mensaje);
@@ -186,6 +252,11 @@ public class BolaDeDrac {
         } while (true);
     }
 
+    /**
+     * Pide al usuario que inserte una cedena de texto
+     * @param mensaje texto a mostrar por pantalla
+     * @return cadena del usuario
+     */
     private static String pedirCadena(String mensaje) {
         do {
             System.out.print(mensaje);
@@ -197,6 +268,12 @@ public class BolaDeDrac {
         } while (true);
     }
 
+    /**
+     * Comprueba si la respuesta del usuario es correcta
+     * @param respuesta entero del usuario
+     * @param resultado entero correcto
+     * @return si ha acertado o no
+     */
     private static boolean validarRespuesta(int respuesta, int resultado ){
         if (respuesta == resultado) {
             return true;
@@ -205,6 +282,12 @@ public class BolaDeDrac {
         return false;
     }
 
+    /**
+     * Comprueba si la respuesta del usuario es correcta
+     * @param respuesta cadena del usuario
+     * @param resultado cadena correcta
+     * @return si ha acertado o no
+     */
     private static boolean validarRespuesta(String respuesta, String resultado) {
         if (respuesta.equals(resultado)) {
             return true;
@@ -213,6 +296,9 @@ public class BolaDeDrac {
         return false;
     }
 
+    /**
+     * Inicializa la 7 bolas del dragon
+     */
     private static void generarBolas() {
         b1 = generarNumAleatorio(3, 1);
         b2 = generarNumAleatorio(7, 4);
@@ -223,6 +309,11 @@ public class BolaDeDrac {
         b7 = generarNumAleatorio(3, 1, b1, b6);
     }
 
+    /**
+     * Genera una String alfanumérica de manera aleatorio y de la largaria indicada
+     * @param largo tamaño de la cadena
+     * @return cadena aleatoria
+     */
     private static String generarCadenaAlfanumerica(int largo) {
         StringBuilder cadena = new StringBuilder();
         do {
@@ -235,6 +326,11 @@ public class BolaDeDrac {
         return cadena.toString();
     }
 
+    /**
+     * Genera una String únicamente de vocales de manera aleatorio y de la largaria indicada
+     * @param largo tamaño de la cadena
+     * @return cadena aleatoria de vocales
+     */
     private static String generarCadenaVocales(int largo) {
         StringBuilder cadena = new StringBuilder();
         do {
@@ -244,11 +340,24 @@ public class BolaDeDrac {
         return cadena.toString();
     }
 
+    /**
+     * Genera un número aleatorio que se encuentra entre un rango de números
+     * @param max número máximo del rango
+     * @param min número mínimo del rango
+     * @return número aleatorio
+     */
     private static int generarNumAleatorio(int max, int min) {
         int numero = (int) (Math.random() * (max - min + 1) + min);
         return numero;
     }
 
+    /**
+     * Genera un número aleatorio que se encuentra entre un rango de números y no se repite con otro ya generado
+     * @param max número máximo del rango
+     * @param min número mínimo del rango
+     * @param num número excepción
+     * @return número aleatorio
+     */
     private static int generarNumAleatorio(int max, int min, int num) {
         int numero;
         do {
@@ -257,6 +366,14 @@ public class BolaDeDrac {
         return numero;
     }
 
+    /**
+     * Genera un número aleatorio que se encuentra entre un rango de números y no se repite con otros ya generados
+     * @param max número máximo del rango
+     * @param min número mínimo del rango
+     * @param num1 número 1 excepción
+     * @param num2 número 2 excepción
+     * @return número aleatorio
+     */
     private static int generarNumAleatorio(int max, int min, int num1, int num2) {
         int numero;
         do {
@@ -265,6 +382,15 @@ public class BolaDeDrac {
         return numero;
     }
 
+    /**
+     * Genera un número aleatorio que se encuentra entre un rango de números y no se repite con otros ya generados
+     * @param max número máximo del rango
+     * @param min número mínimo del rango
+     * @param num1 número 1 excepción
+     * @param num2 número 2 excepción
+     * @param num3 número 3 excepción
+     * @return número aleatorio
+     */
     private static int generarNumAleatorio(int max, int min, int num1, int num2, int num3) {
         int numero;
         do {
@@ -273,6 +399,11 @@ public class BolaDeDrac {
         return numero;
     }
 
+    /**
+     * Imprime por pantalla el texto carácter a carácter, como si fuese una máquina de escribir
+     * @param mensaje texto a mostrar por pantalla
+     * @throws InterruptedException espera 10 milésimas de segundo entre impresión
+     */
     private static void imprimirMensaje(String mensaje) throws InterruptedException {
         for (int i = 0; i < mensaje.length(); i++) {
             System.out.print(mensaje.charAt(i));
