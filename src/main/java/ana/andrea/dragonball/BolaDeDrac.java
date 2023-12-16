@@ -60,12 +60,12 @@ public class BolaDeDrac {
         }
 
         System.out.println("\nLa respuesta correcta seria: " + resultado);
-        return true;
-        //FALTARIA LLAMAR AQUÍ AL METODO DE GANAR O NO
+        return iniciarIntentos("Sumatorio: ", resultado);
     }
 
     private static boolean mostrarNivel2() {
         String mensaje = String.format(Mensaje.LVL2, b1, b2);
+        System.out.println(mensaje);
         //StringBuilder cadena = new StringBuilder();
         //String cadena1 = "erjw3";
         //String cadena2 = "A3q2q";
@@ -83,11 +83,12 @@ public class BolaDeDrac {
 
         }
         System.out.println("\nCorresponde a la cadena: " + cadenaResultado);
-        return true;
+        return iniciarIntentos("Cadena: ", cadenaResultado);
     }
 
     private static boolean mostrarNivel3() {
         String mensaje = String.format(Mensaje.LVL3, b2, b3, b3);
+        System.out.println(mensaje);
         //B3=5; ESTO ERA PARA PROBAR
 
         int resultado = NUM_MIN_FACTORIAL;
@@ -96,7 +97,7 @@ public class BolaDeDrac {
             resultado *= i;
         }
         System.out.println("\nEl resultado es: " + resultado);
-        return true;
+        return iniciarIntentos("Numero Factorial: ", resultado);
     }
 
     private static boolean mostrarNivel4() throws InterruptedException {
@@ -119,7 +120,7 @@ public class BolaDeDrac {
         String cadena = generarCadenaVocales(2);
         System.out.println(cadena);
 
-        return true;
+        return iniciarIntentos("Vocales repetidas: ", cadena);
     }
 
     private static boolean mostrarNivel5() {

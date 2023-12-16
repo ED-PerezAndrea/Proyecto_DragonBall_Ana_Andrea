@@ -30,7 +30,8 @@ public class Mensaje {
                                         ningú podrà mai parar. El planeta està en perill. El Fullet Tortuga et
                                         demana ajuda ¿Vols que Son-Goku i Son-Gohan accepten el repte?
                                         """;
-    
+             
+                                       
     public final static String LVL1 = """
                                       Son Goku: Molt bé! Anem a buscar les boles de drac abans que
                                       Freezer puga tenir-les. --va dir Son-Goku des de la seua casa en el
@@ -49,7 +50,7 @@ public class Mensaje {
                                       de la vostra casa i el número de la meua? Si l’endevineu, vos donaré
                                       la bola i m’uniré al vostre equip.
                                       """;
-    
+                                      
     public final static String LVL2 = """
                                       Satanàs Cor Petit: Sou uns cracks de les matemàtiques! Pensava que
                                       només sabíeu lluitar. Ací teniu la bola de %d estreles. Per cert, tinc el
