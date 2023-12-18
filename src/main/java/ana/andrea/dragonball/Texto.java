@@ -44,9 +44,23 @@ public class Texto {
     
     /*-------------- Texto predeterminado del juego --------------*/
     
-    public final static String PANTALLA_PRINCIPAL = PARPADEO + "\t\t\tPulsa qualsevol tecla per a començar partida\n" + RESET_TEXTO;
-    
-    
+    public final static String PANTALLA_PRINCIPAL = PARPADEO + "\t\t\tPolsa qualsevol tecla per a començar la partida\n" + RESET_TEXTO;
+    public final static String RESPUESTA_CORRECTA = PISTA + CURSIVA + "\tLa resposta correcta es: %d\n" + RESET_TEXTO;
+    public final static String RESPUESTA_CORRECTA_TEXTO = PISTA + CURSIVA + "\tLa resposta correcta es: %s\n" + RESET_TEXTO;
+    public final static String SUMATORIO = NEGRITA + "\tIntrodueix el numero Sumatori: \n" + RESET_TEXTO;
+    public final static String MEZCLA_CARACTERES = CURSIVA + "\tLa mescla sagrada de les cadenes de caràcters es: %s %s %s\n" + RESET_TEXTO;
+    public final static String CADENA = NEGRITA + "\tIntrodueix la cadena: \n" + RESET_TEXTO;
+    public final static String NUM_FACTORIAL = NEGRITA + "\tIntrodueix el numero factorial: \n" + RESET_TEXTO;
+    public final static String VOCAL_REPETIDAS = NEGRITA + "\tIntrodueix les vocals repetides: \n" + RESET_TEXTO;
+    public final static String M_C_M = NEGRITA + "\tEl Mínim comú múltiple de %d %d %d %d es: \n" + RESET_TEXTO;
+    public final static String PASA_DE_NIVEL = PISTA + NEGRITA + "\tEnhorabona!! Heu aconseguit passar de nivell\n" + RESET_TEXTO;
+    public final static String PANTALLA_PASAR_NIVEL = PARPADEO + "\t\t\tPolsa qualsevol tecla per a pasar al següent nivell\n" + RESET_TEXTO;
+    public final static String TEXTO_GANAR = PISTA + NEGRITA + "\tEnhorabona!! Heu aconseguit les 7 boles de Drac. El món torna a respirar tranquil. Fins un altra amics!\n" + RESET_TEXTO;
+    public final static String TEXTO_PERDER = PISTA + NEGRITA + "\tMalauradament, la aventura ha acabat i el món torna a ser un lloc insegur. Una llàstima!\n" + RESET_TEXTO;
+    public final static String TEXTO_ADEU = PISTA + "\t\t\t\tAdéu\n" + RESET_TEXTO;
+    public final static String ERROR_VALIDACION = PISTA + "\tError! El tipus de dades introduït és incorrecte\n" + RESET_TEXTO;
+    public final static String RESPUESTA_INCORRECTA = PISTA + "\tResposta incorrecta. Torna a intentar-ho.\n" + RESET_TEXTO;
+     
     /*-------------- Texto predeterminado de los niveles --------------*/
     
     // Comentar el RESET_TERMINAL al principio de cada String si no se ejecuta en terminal
@@ -253,8 +267,8 @@ public class Texto {
             
             """;
 
-    public static void ascciArtFullet(){
-        System.out.println("   #=----+%                                  \n" +
+public final static String ASCII_FULLET = RESET_TERMINAL + 
+                "                        #=----+%                                  \n" +
 "                %##***%             *-:.:::::::::=*                               \n" +
 "               %##*+++###         +:...::::::::::-==*                             \n" +
 "               ##*+++++*#%       -.:::::::::::::::===+%                           \n" +
@@ -322,11 +336,11 @@ public class Texto {
 "              %%+++=======#%%*+*+#*@           #++++***+====+*##%##%#*==*         \n" +
 "              #+#%%*+=+##++**+#% #+#              ###*+++++++==========+%         \n" +
 "               #++====++*+**%    %*#                       @%%##****#             \n" +
-"                 %*++*#%          %%     ");
-    }
-    public static void asciiArtGoku() {
-        System.out.println("Son Goku");
-        System.out.println("              ___     -._\n" +
+"                 %*++*#%          %%     ";
+    
+public final static String ASCII_GOKU = RESET_TERMINAL +
+        
+        "              ___     -._\n" +
 "            `-. \"\"\"--._ `-.\n" +
 "               `.      \"-. `.\n" +
 " _____           `.       `. \\        \n" +
@@ -358,12 +372,11 @@ public class Texto {
 "             P    `. \\      `%,  `.  ,'         /' .'     \\\n" +
 "            | --\"  _\\||       `%,  `'          /.-'   .    )\n" +
 "            |       `-.\"\"--..   `%..--\"\"\"\\\\\"--.'       \"-  |\n" +
-" _----_     \\          `.  .--\"\"\"  \"\\.\\.\\ \\\\.'       )     |");
-    }
+"            \\          `.  .--\"\"\"  \"\\.\\.\\ \\\\.'       )     |";
+    
 
-    public static void asciiArtBOO() {
-         System.out.println("BOO");
-        System.out.println("  ...                              ..            \n" +
+public final static String ASCII_BOO = RESET_TERMINAL +
+        "                                               \n" +
 "                                  .   .                          ..:...           \n" +
 "                                  .   :.                        ....:;:.          \n" +
 "                                      ..                      ....::..:.          \n" +
@@ -392,12 +405,11 @@ public class Texto {
 "        ..     ;;;;;;:....::.                          ;::.:..;+;;;;;.            \n" +
 "                 ;+++;;..:::                        .:..:::.;;+++;;:              \n" +
 "                   ;;;;::;.   .     .                  .:+;;;;;;;.                \n" +
-"                    ;;;:                                  :;;;;.                  ");
-    }
+"                    ;;;:                                  :;;;;.                  ";
 
-    public static void asciiArtTenShinAn() {
-        System.out.println("Ten Shin Han");
-        System.out.println(" .::-:::                                       \n" +
+public final static String ASCII_TEN_SHIN_AN = RESET_TERMINAL + 
+     
+                " .::-:::                                       \n" +
 "       .=====-..                                     \n" +
 "       .-====--.                                     \n" +
 "       .--====-.                                     \n" +
@@ -440,13 +452,11 @@ public class Texto {
 " .=##%#++*-.                                         \n" +
 ".=*%%@@@=..                                          \n" +
 "+##%@@@-.                                            \n" +
-"*#%@@@:                                              \n" +
-"%@@=.. ");
-    }
+"*#%@@@:                                              \n" ;
+    
 
-    public static void asciiArtCel() {
-        System.out.println("Cèl·lula");
-        System.out.println("                                            \n" +
+ public final static String ASCII_CELL = RESET_TERMINAL + 
+                "                                            \n" +
 "                   #%%        +*                             \n" +
 "                   #@#      **++                             \n" +
 "                   *@%#    **+**                             \n" +
@@ -494,12 +504,11 @@ public class Texto {
 "            +=+              *=-=*#+=                        \n" +
 "                               --=*+=                        \n" +
 "                                +---=                        \n" +
-"                                   ++    ");
-    }
+"                                   ++    ";
     
-    public static void asciiArtSonGohan(){
-        System.out.println("Son Gohan");
-        System.out.println("  __...__\n" +
+    
+ public final static String ASCII_SON_GOHAN = RESET_TERMINAL + 
+                "  __...__\n" +
 "          \"-._  \"\"--.._     \\-.\n" +
 "              \"-.      \"-.   \\ `.\n" +
 "                 \\        `. |   \\\n" +
@@ -527,12 +536,11 @@ public class Texto {
 "          /  /    `\\     |          ,/'          /            |  )\n" +
 "          | /       `._.- ---..__,/'            ( \\          /   /\n" +
 "           (          `.      ,/'                `.`-..__    `--._\n" +
-"          / `.          `\\_,/'                     \\      \"`\\     \\");
-    }
+"          / `.          `\\_,/'                     \\      \"`\\     \\";
     
-    public static void asciiArtFreezer(){
-        System.out.println("Freezer");
-        System.out.println("                                                    \n" +
+    
+public final static String ASCII_FREEZER = RESET_TERMINAL + 
+                "                                                    \n" +
 "                              @#*##%@@                                        \n" +
 "                           @*+++###%%%%%@                                     \n" +
 "                          %+++####%%%%+-=#                                    \n" +
@@ -584,12 +592,11 @@ public class Texto {
 "                         @@@ #---===--*                                       \n" +
 "                            *===*   +-+@                                      \n" +
 "                           +--=#      #+                                      \n" +
-"                          @*+%     ");
-    }
+"                          @*+%     ";
     
-    public static void asciiArtSatanas(){
-         System.out.println("Satanàs Cor Petit");
-        System.out.println("                             ____\n" +
+    
+  public final static String ASCII_SATANAS = RESET_TERMINAL + 
+                "                             ____\n" +
 "                          .-\"\"    \"\"--.\n" +
 "                        ,'             `.\n" +
 "                       /     ,'          \\\n" +
@@ -614,8 +621,8 @@ public class Texto {
 "  \\/   \\     \"\"\"\"\"\"\"      /               \"\"-`  `-\"====\"-'   \\\n" +
 "  |     \"-.        __..-\"                    \\._.====..       `\n" +
 "  |        \"\"--\"\"\"\"                          //..---\"\"\\\\       .\n" +
-"  \\                           _----_       /'| __...---.\\      |");
-    }
+"  \\                           _----_       /'| __...---.\\      |";
+    
     
     
     public final static String ASCII_FIN =

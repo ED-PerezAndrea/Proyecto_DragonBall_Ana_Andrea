@@ -88,6 +88,7 @@ public class BolaDeDrac {
      * @return si inicia partida o no
      */
     private static boolean mostrarInicio() throws InterruptedException {
+        imprimirPorLineas(Texto.ASCII_GOKU);
         String texto = Texto.INICIO;
         imprimirPorCaracteres(texto);
         return pedirEntero("Introdueix un 1 si vols que l'accepten: ") == 1;
@@ -98,6 +99,7 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel1() throws InterruptedException {
+         imprimirPorLineas(Texto.ASCII_SATANAS);
         int n1 = generarNumAleatorio(10, 0);
         int n2 = generarNumAleatorio(30, 20);
         String texto = String.format(Texto.LVL1, n1, n2);
@@ -110,9 +112,11 @@ public class BolaDeDrac {
             imprimirPorCaracteres(x + ((x == n2) ? "" : SUMA));
             resultado += x;
         }
-
-        imprimirPorCaracteres("\nLa respuesta correcta seria: " + resultado);
-        return iniciarIntentos("Sumatorio: ", resultado);
+        String textoRespuesta = String.format(Texto.RESPUESTA_CORRECTA, resultado);
+        String textoSumatorio = String.format(Texto.SUMATORIO);
+        
+        imprimirPorCaracteres(textoRespuesta);
+        return iniciarIntentos(textoSumatorio, resultado);
     }
 
     /**
@@ -120,6 +124,7 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel2() throws InterruptedException {
+         imprimirPorLineas(Texto.ASCII_TEN_SHIN_AN);
         String texto = String.format(Texto.LVL2, b1, b2);
         imprimirPorCaracteres(texto);
         //StringBuilder cadena = new StringBuilder();
@@ -130,16 +135,18 @@ public class BolaDeDrac {
         String cadena2 = generarCadenaAlfanumerica(b2);
 
         String cadenaResultado = "";
-
-        imprimirPorCaracteres("La mezcla sagrada de las cadenas de caráctes " + cadena + " i " + cadena2);
+        String textoMezclaCarac = String.format(Texto.MEZCLA_CARACTERES, cadena, " i ", cadena2);
+        imprimirPorCaracteres(textoMezclaCarac);
         for (int i = 0; i < cadena.length(); i++) {
 
             cadenaResultado = cadenaResultado.concat(String.valueOf(cadena2.charAt((cadena2.length() - 1) - i)));
             cadenaResultado = cadenaResultado.concat(String.valueOf(cadena.charAt(i)));
 
         }
-        imprimirPorCaracteres("\nCorresponde a la cadena: " + cadenaResultado);
-        return iniciarIntentos("Cadena: ", cadenaResultado);
+        String textoRespuesta = String.format(Texto.RESPUESTA_CORRECTA_TEXTO, cadenaResultado);
+        String textoCadena = String.format(Texto.CADENA);
+        imprimirPorCaracteres(textoRespuesta);
+        return iniciarIntentos(textoCadena, cadenaResultado);
     }
 
     /**
@@ -147,6 +154,7 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel3() throws InterruptedException {
+         imprimirPorLineas(Texto.ASCII_BOO);
         String texto = String.format(Texto.LVL3, b2, b3, b3);
         imprimirPorCaracteres(texto);
         //B3=5; ESTO ERA PARA PROBAR
@@ -156,8 +164,11 @@ public class BolaDeDrac {
             imprimirPorCaracteres(i + ((i == NUM_MIN_FACTORIAL) ? "" : MULT));
             resultado *= i;
         }
-        imprimirPorCaracteres("\nEl resultado es: " + resultado);
-        return iniciarIntentos("Numero Factorial: ", resultado);
+        String textoRespuesta = String.format(Texto.RESPUESTA_CORRECTA, resultado);
+        String textoNumFactorial = String.format(Texto.NUM_FACTORIAL);
+        
+        imprimirPorCaracteres(textoRespuesta);
+        return iniciarIntentos(textoNumFactorial, resultado);
     }
 
     /**
@@ -165,6 +176,7 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel4() throws InterruptedException {
+        imprimirPorLineas(Texto.ASCII_CELL);
         int n = generarNumAleatorio(8, 12);
         String texto = String.format(Texto.LVL4, n, n);
         imprimirPorCaracteres(texto);
@@ -183,8 +195,9 @@ public class BolaDeDrac {
 
         String cadena = generarCadenaVocales(2);
         imprimirPorCaracteres(cadena);
-
-        return iniciarIntentos("Vocales repetidas: ", cadena);
+        
+        String textoVocales = String.format(Texto.VOCAL_REPETIDAS);
+        return iniciarIntentos(textoVocales, cadena);
     }
 
     /**
@@ -192,12 +205,15 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel5() throws InterruptedException {
+         imprimirPorLineas(Texto.ASCII_FREEZER);
         String texto = String.format(Texto.LVL5, b4, b5, b6, b7, b4, b5, b6, b7);
         imprimirPorCaracteres(texto);
         int resultado = calcularMCM(b4, b5);
         resultado = calcularMCM(resultado, b6);
         resultado = calcularMCM(resultado, b7);
-        return iniciarIntentos("MCM: ", resultado);
+        String textMcm = String.format(Texto.M_C_M, b4, b5, b6, b7);
+        return iniciarIntentos(textMcm, resultado);
+       
     }
     
     /**
@@ -206,9 +222,11 @@ public class BolaDeDrac {
      */
     private static void mostrarResultado(boolean haGanado) throws InterruptedException {
         if (haGanado) {
-            imprimirPorCaracteres("Enhorabona!! Heu aconseguit les 7 boles de Drac. El món torna a respirar tranquil. Fins un altra amics!");
+            String textoGanar = String.format(Texto.TEXTO_GANAR);
+            imprimirPorCaracteres(textoGanar);
         } else {
-            imprimirPorCaracteres("Malauradament, la aventura ha acabat i el món torna a ser un lloc insegur. Una llàstima!");
+            String textoPerder = String.format(Texto.TEXTO_PERDER);
+            imprimirPorCaracteres(textoPerder);
             imprimirPorLineas(Texto.ASCII_PERDIDO);
         }
     }
@@ -247,7 +265,8 @@ public class BolaDeDrac {
      * Muestra por pantalla una despedida
      */
     private static void finalizarPartida() throws InterruptedException {
-        imprimirPorCaracteres("Adéu.");
+        String textoAdeu = String.format(Texto.TEXTO_ADEU);
+        imprimirPorCaracteres(textoAdeu);
         imprimirPorLineas(Texto.ASCII_FIN);
     }
 
@@ -284,7 +303,8 @@ public class BolaDeDrac {
             if (input.hasNextInt()) {
                 return input.nextInt();
             }
-            imprimirPorCaracteres("Error! El tipus de dades introduït és incorrecte");
+            String textoError= String.format(Texto.ERROR_VALIDACION);
+            imprimirPorCaracteres(textoError);
             input.next();
         } while (true);
     }
@@ -300,7 +320,8 @@ public class BolaDeDrac {
             if (input.hasNext()) {
                 return input.next();
             }
-            imprimirPorCaracteres("Error! El tipus de dades introduït és incorrecte");
+            String textoError= String.format(Texto.ERROR_VALIDACION);
+            imprimirPorCaracteres(textoError);
             input.next();
         } while (true);
     }
@@ -315,7 +336,8 @@ public class BolaDeDrac {
         if (respuesta == resultado) {
             return true;
         }
-        imprimirPorCaracteres("Resposta incorrecta. Torna a intentar-ho.");
+        String textoRespuestaIncorrecta= String.format(Texto.RESPUESTA_INCORRECTA);
+        imprimirPorCaracteres(textoRespuestaIncorrecta);
         return false;
     }
 
@@ -329,7 +351,8 @@ public class BolaDeDrac {
         if (respuesta.equals(resultado)) {
             return true;
         }
-        imprimirPorCaracteres("Resposta incorrecta. Torna a intentar-ho.");
+        String textoRespuestaIncorrecta= String.format(Texto.RESPUESTA_INCORRECTA);
+        imprimirPorCaracteres(textoRespuestaIncorrecta);
         return false;
     }
 
@@ -446,7 +469,7 @@ public class BolaDeDrac {
             System.out.print(texto.charAt(i));
             
             // Comentar el Thread si se quiere que imprima el texto de golpe o no se ejecuta en terminal
-            Thread.sleep(10);
+            //Thread.sleep(10);
         }
     }
     
@@ -466,7 +489,7 @@ public class BolaDeDrac {
                 linea.delete(0, linea.length());
                 
                 // Comentar el Thread si se quiere que imprima el texto de golpe o no se ejecuta en terminal
-                Thread.sleep(50);
+                //Thread.sleep(50);
             }
         }
     }
