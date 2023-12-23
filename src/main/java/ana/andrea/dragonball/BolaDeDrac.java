@@ -44,7 +44,7 @@ public class BolaDeDrac {
         imprimirPorLineas(Texto.ASCII_TITULO);
         generarBarraDeCarga();
         System.out.println(Texto.PANTALLA_PRINCIPAL);
-        input.next();
+        input.nextLine();
     }
     
     /**
@@ -58,9 +58,7 @@ public class BolaDeDrac {
         
         StringBuilder barra = new StringBuilder();
         barra.append(borde);
-        for (int i = 0; i < LARGO_BARRA; i++) {
-            barra.append(barVacia);
-        }
+        barra.append(String.valueOf(barVacia).repeat(LARGO_BARRA));
         barra.append(borde);
         
         for (int i = 1; i <= LARGO_BARRA; i++) {
@@ -169,22 +167,34 @@ public class BolaDeDrac {
         String texto = String.format(Texto.LVL4, n, n);
         imprimirPorCaracteres(texto);
 
-        String cadena1 = generarCadenaVocales(n);
-        String cadena2 = generarCadenaVocales(n);
-        String cadena3 = generarCadenaVocales(n);
+        String subcad = generarCadenaVocales(2);
+        String cad1 = generarCadenaVocales(n);
+        String cad2 = generarCadenaVocales(n);
+        String cad3 = generarCadenaVocales(n);
 
         String cadenas = String.format("""
                           Cadena 1: %s
                           Cadena 2: %s
                           Cadena 3: %s
-                          """, cadena1, cadena2, cadena3);
+                          """, cad1, cad2, cad3, subcad);
 
         imprimirPorCaracteres(cadenas);
-
-        String cadena = generarCadenaVocales(2);
-        imprimirPorCaracteres(cadena);
-
-        return iniciarIntentos("Vocales repetidas: ", cadena);
+        System.out.printf("%d %d %d", contarSubcadenaEnCadena(cad1, subcad), contarSubcadenaEnCadena(cad2, subcad), contarSubcadenaEnCadena(cad3, subcad));
+        System.out.printf("%d %d %d", contarSubcadenaEnCadena(cad1.replaceAll(subcad, " "), subcad), contarSubcadenaEnCadena(cad2.replaceAll(subcad, " "), subcad), contarSubcadenaEnCadena(cad3.replaceAll(subcad, " "), subcad));
+        
+        return iniciarIntentos(cad1, cad2, cad3, subcad);
+    }
+    
+    private static int contarSubcadenaEnCadena(String texto, String car) {
+        int cont = 0;
+        int indice = 0;
+        
+        while ((indice = texto.indexOf(car, indice)) != -1) {
+            indice += car.length();
+            cont++;
+        }
+        
+        return cont;
     }
 
     /**
@@ -211,6 +221,31 @@ public class BolaDeDrac {
             imprimirPorCaracteres("Malauradament, la aventura ha acabat i el món torna a ser un lloc insegur. Una llàstima!");
             imprimirPorLineas(Texto.ASCII_PERDIDO);
         }
+    }
+    
+    private static boolean iniciarIntentos(String cad1, String cad2, String cad3, String subcad) throws InterruptedException {
+        String subcadRev = new StringBuilder(subcad).reverse().toString();
+        System.out.println("Subcadena a buscar: " + subcad);
+        if (!iniciarIntentos("Cadna 1: ", contarSubcadenaEnCadena(cad1, subcad))) {
+            return false;
+        }
+        if (!iniciarIntentos("Cadna 2: ", contarSubcadenaEnCadena(cad2, subcad))) {
+            return false;
+        }
+        if (!iniciarIntentos("Cadna 3: ", contarSubcadenaEnCadena(cad3, subcad))) {
+            return false;
+        }
+        cad1 = cad1.replaceAll(subcad, " ");
+        cad2 = cad2.replaceAll(subcad, " ");
+        cad3 = cad3.replaceAll(subcad, " ");
+        System.out.println("Subcadena a buscar: " + subcadRev);
+        if (!iniciarIntentos("Cadna 1: ", contarSubcadenaEnCadena(cad1, subcadRev))) {
+            return false;
+        }
+        if (!iniciarIntentos("Cadna 2: ", contarSubcadenaEnCadena(cad2, subcadRev))) {
+            return false;
+        }
+        return iniciarIntentos("Cadna 3: ", contarSubcadenaEnCadena(cad3, subcadRev));
     }
     
     /**

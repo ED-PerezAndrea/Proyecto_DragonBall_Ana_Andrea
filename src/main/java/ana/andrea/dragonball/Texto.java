@@ -44,7 +44,7 @@ public class Texto {
     
     /*-------------- Texto predeterminado del juego --------------*/
     
-    public final static String PANTALLA_PRINCIPAL = PARPADEO + "\t\t\tPulsa qualsevol tecla per a començar partida\n" + RESET_TEXTO;
+    public final static String PANTALLA_PRINCIPAL = PARPADEO + "\t\t\tPulsa intro per a començar partida\n" + RESET_TEXTO;
     
     
     /*-------------- Texto predeterminado de los niveles --------------*/
