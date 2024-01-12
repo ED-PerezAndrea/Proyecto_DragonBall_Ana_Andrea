@@ -11,20 +11,25 @@ import java.util.Scanner;
  * @author Ana Carbonell y Andrea Pérez
  */
 public class BolaDeDrac {
+    
     private static Scanner input;
     private static int b1, b2, b3, b4, b5, b6, b7;
-    private final static String SUMA = "+";
-    private final static String MULT = "*";
-    private final static int NUM_MIN_FACTORIAL = 1;
+    
     private final static String VOCALES = "aeiou";
+    private final static String ALFABETO = VOCALES.concat("bcdfghjklmnpqrstvwxyz");
+    private final static String ALFANUMERICO = ALFABETO.concat(ALFABETO.toUpperCase().concat("0123456789"));
     private final static int NUM_INTENTOS = 3;
     private final static int LARGO_BARRA = 20;
+    private final static int MAX_NIVEL = 5;
 
     public static void main(String[] args) throws InterruptedException {
         input = new Scanner(System.in);
         iniciarJuego();
     }
 
+    
+    /*-------------- Métodos base para el funcionamiento del juego --------------*/
+    
     /**
      * Comienza una nueva partida del juego
      */
@@ -48,37 +53,62 @@ public class BolaDeDrac {
     }
     
     /**
-     * Simula una barra de carga cambiando el carácter = por #
+     * Simula una barra de carga cambiando los carácteres vacíos por los llenos
      * @throws InterruptedException espera 50 milésimas de segundo entre impresión
      */
     private static void generarBarraDeCarga() throws InterruptedException {
-        final char barVacia = 61;
-        final char barLlena = 35;
-        final char borde = 124;
+        final char barVacia = '░';
+        final char barLlena = '▓';
+        int porcentaje = 0;
         
         StringBuilder barra = new StringBuilder();
-        barra.append(borde);
+        barra.append("╞═");
         barra.append(String.valueOf(barVacia).repeat(LARGO_BARRA));
-        barra.append(borde);
+        barra.append("═╡");
         
-        for (int i = 1; i <= LARGO_BARRA; i++) {
-            barra.setCharAt(i, barLlena);
-            System.out.print("\t\t\t\t" + barra + "\r");
+        for (int i = 0; i < LARGO_BARRA; i++) {
+            barra.setCharAt(i + 2, barLlena);
+            porcentaje += 100 / LARGO_BARRA;
+            System.out.print("\t\t\t\t" + barra + " " + porcentaje + "%\r");
             
             Thread.sleep(50);
         }
     }
 
     /**
-     * Realiza las llamadas a los niveles
+     * Realiza las llamadas a los niveles e imprime el mensaje de paso de nivel
      * @return si ha ganado o no
      */
     private static boolean iniciarNiveles() throws InterruptedException {
-        if (!mostrarNivel1()) return false;
-        if (!mostrarNivel2()) return false;
-        if (!mostrarNivel3()) return false;
-        if (!mostrarNivel4()) return false;
-        return mostrarNivel5();
+        boolean haGanado = false;
+        
+        for (int i = 1; i <= MAX_NIVEL; i++) {
+            switch (i) {
+                case 1:
+                    haGanado = mostrarNivel1();
+                    break;
+                case 2:
+                    haGanado = mostrarNivel2();
+                    break;
+                case 3:
+                    haGanado = mostrarNivel3();
+                    break;
+                case 4:
+                    haGanado = mostrarNivel4();
+                    break;
+                case 5:
+                    haGanado = mostrarNivel5();
+                    break;
+            }
+            if (!haGanado) {
+                break;
+            } else if (i != 5) {
+                imprimirPorCaracteres(Texto.RESPUESTA_CORRECTA);
+                input.nextLine();
+                input.nextLine();
+            }
+        }
+        return haGanado;
     }
 
     /**
@@ -86,9 +116,9 @@ public class BolaDeDrac {
      * @return si inicia partida o no
      */
     private static boolean mostrarInicio() throws InterruptedException {
-        String texto = Texto.INICIO;
-        imprimirPorCaracteres(texto);
-        return pedirEntero("Introdueix un 1 si vols que l'accepten: ") == 1;
+        imprimirPorLineas(Texto.ASCII_GOKU);
+        imprimirPorCaracteres(Texto.INICIO);
+        return pedirEntero(Texto.INICIO_RESPUESTA) == 1;
     }
 
     /**
@@ -98,19 +128,17 @@ public class BolaDeDrac {
     private static boolean mostrarNivel1() throws InterruptedException {
         int n1 = generarNumAleatorio(10, 0);
         int n2 = generarNumAleatorio(30, 20);
-        String texto = String.format(Texto.LVL1, n1, n2);
-        imprimirPorCaracteres(texto);
-        //n1 = 10; ESTO ERA PROBAR QUE SÍ FUNCIONABA, LO DEJO POR SI
-        //n2 = 20;
+        
+        imprimirPorLineas(Texto.ASCII_SATANAS);
+        imprimirPorCaracteres(String.format(Texto.LVL1, n1, n2));
+        
         int resultado = 0;
-
-        for (int x = n1; x <= n2; x++) {
-            imprimirPorCaracteres(x + ((x == n2) ? "" : SUMA));
-            resultado += x;
+        for (int i = n1; i <= n2; i++) {
+            resultado += i;
         }
-
-        imprimirPorCaracteres("\nLa respuesta correcta seria: " + resultado);
-        return iniciarIntentos("Sumatorio: ", resultado);
+        
+        imprimirPorCaracteres(String.format(Texto.PISTA_ENTERO, resultado));
+        return iniciarIntentos(String.format(Texto.LVL1_RESPUESTA, n1, n2), resultado);
     }
 
     /**
@@ -118,26 +146,20 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel2() throws InterruptedException {
-        String texto = String.format(Texto.LVL2, b1, b2);
-        imprimirPorCaracteres(texto);
-        //StringBuilder cadena = new StringBuilder();
-        //String cadena1 = "erjw3";
-        //String cadena2 = "A3q2q";
+        imprimirPorLineas(Texto.ASCII_TEN_SHIN_AN);
+        imprimirPorCaracteres(String.format(Texto.LVL2, b1, b2));
 
-        String cadena = generarCadenaAlfanumerica(b2);
-        String cadena2 = generarCadenaAlfanumerica(b2);
-
+        String cadena1 = generarCadena(b2, ALFANUMERICO);
+        String cadena2 = generarCadena(b2, ALFANUMERICO);
+        
         String cadenaResultado = "";
-
-        imprimirPorCaracteres("La mezcla sagrada de las cadenas de caráctes " + cadena + " i " + cadena2);
-        for (int i = 0; i < cadena.length(); i++) {
-
+        for (int i = 0; i < cadena1.length(); i++) {
             cadenaResultado = cadenaResultado.concat(String.valueOf(cadena2.charAt((cadena2.length() - 1) - i)));
-            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena.charAt(i)));
-
+            cadenaResultado = cadenaResultado.concat(String.valueOf(cadena1.charAt(i)));
         }
-        imprimirPorCaracteres("\nCorresponde a la cadena: " + cadenaResultado);
-        return iniciarIntentos("Cadena: ", cadenaResultado);
+        
+        imprimirPorCaracteres(String.format(Texto.PISTA_TEXTO, cadenaResultado));
+        return iniciarIntentos(String.format(Texto.LVL2_RESPUESTA, cadena1, cadena2), cadenaResultado);
     }
 
     /**
@@ -145,17 +167,16 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel3() throws InterruptedException {
-        String texto = String.format(Texto.LVL3, b2, b3, b3);
-        imprimirPorCaracteres(texto);
-        //B3=5; ESTO ERA PARA PROBAR
+        imprimirPorLineas(Texto.ASCII_BOO);
+        imprimirPorCaracteres(String.format(Texto.LVL3, b2, b3, b3));
 
-        int resultado = NUM_MIN_FACTORIAL;
-        for (int i = b3; i >= NUM_MIN_FACTORIAL; i--) {
-            imprimirPorCaracteres(i + ((i == NUM_MIN_FACTORIAL) ? "" : MULT));
+        int resultado = 1;
+        for (int i = b3; i >= 1; i--) {
             resultado *= i;
         }
-        imprimirPorCaracteres("\nEl resultado es: " + resultado);
-        return iniciarIntentos("Numero Factorial: ", resultado);
+        
+        imprimirPorCaracteres(String.format(Texto.PISTA_ENTERO, resultado));
+        return iniciarIntentos(String.format(Texto.LVL3_RESPUESTA, b3), resultado);
     }
 
     /**
@@ -164,37 +185,16 @@ public class BolaDeDrac {
      */
     private static boolean mostrarNivel4() throws InterruptedException {
         int n = generarNumAleatorio(8, 12);
-        String texto = String.format(Texto.LVL4, n, n);
-        imprimirPorCaracteres(texto);
-
-        String subcad = generarCadenaVocales(2);
-        String cad1 = generarCadenaVocales(n);
-        String cad2 = generarCadenaVocales(n);
-        String cad3 = generarCadenaVocales(n);
-
-        String cadenas = String.format("""
-                          Cadena 1: %s
-                          Cadena 2: %s
-                          Cadena 3: %s
-                          """, cad1, cad2, cad3, subcad);
-
-        imprimirPorCaracteres(cadenas);
-        System.out.printf("%d %d %d", contarSubcadenaEnCadena(cad1, subcad), contarSubcadenaEnCadena(cad2, subcad), contarSubcadenaEnCadena(cad3, subcad));
-        System.out.printf("%d %d %d", contarSubcadenaEnCadena(cad1.replaceAll(subcad, " "), subcad), contarSubcadenaEnCadena(cad2.replaceAll(subcad, " "), subcad), contarSubcadenaEnCadena(cad3.replaceAll(subcad, " "), subcad));
         
+        String subcad = generarCadena(2, VOCALES);
+        String cad1 = generarCadena(n, VOCALES);
+        String cad2 = generarCadena(n, VOCALES);
+        String cad3 = generarCadena(n, VOCALES);
+        
+        imprimirPorLineas(Texto.ASCII_CELL);
+        imprimirPorCaracteres(String.format(Texto.LVL4, n, n, cad1, cad2, cad3));
+
         return iniciarIntentos(cad1, cad2, cad3, subcad);
-    }
-    
-    private static int contarSubcadenaEnCadena(String texto, String car) {
-        int cont = 0;
-        int indice = 0;
-        
-        while ((indice = texto.indexOf(car, indice)) != -1) {
-            indice += car.length();
-            cont++;
-        }
-        
-        return cont;
     }
 
     /**
@@ -202,12 +202,16 @@ public class BolaDeDrac {
      * @return si pasa de nivel o no
      */
     private static boolean mostrarNivel5() throws InterruptedException {
-        String texto = String.format(Texto.LVL5, b4, b5, b6, b7, b4, b5, b6, b7);
-        imprimirPorCaracteres(texto);
+        imprimirPorLineas(Texto.ASCII_FREEZER);
+        imprimirPorCaracteres(String.format(Texto.LVL5, b4, b5, b6, b7, b4, b5, b6, b7));
+        
         int resultado = calcularMCM(b4, b5);
         resultado = calcularMCM(resultado, b6);
         resultado = calcularMCM(resultado, b7);
-        return iniciarIntentos("MCM: ", resultado);
+        
+        imprimirPorCaracteres(String.format(Texto.PISTA_ENTERO, resultado));
+        return iniciarIntentos(String.format(Texto.LVL5_RESPUESTA, b4, b5, b6, b7), resultado);
+       
     }
     
     /**
@@ -216,37 +220,23 @@ public class BolaDeDrac {
      */
     private static void mostrarResultado(boolean haGanado) throws InterruptedException {
         if (haGanado) {
-            imprimirPorCaracteres("Enhorabona!! Heu aconseguit les 7 boles de Drac. El món torna a respirar tranquil. Fins un altra amics!");
+            imprimirPorCaracteres(Texto.RESULTADO_GANAR);
         } else {
-            imprimirPorCaracteres("Malauradament, la aventura ha acabat i el món torna a ser un lloc insegur. Una llàstima!");
+            imprimirPorCaracteres(Texto.RESULTADO_PERDER);
             imprimirPorLineas(Texto.ASCII_PERDIDO);
         }
     }
     
-    private static boolean iniciarIntentos(String cad1, String cad2, String cad3, String subcad) throws InterruptedException {
-        String subcadRev = new StringBuilder(subcad).reverse().toString();
-        System.out.println("Subcadena a buscar: " + subcad);
-        if (!iniciarIntentos("Cadna 1: ", contarSubcadenaEnCadena(cad1, subcad))) {
-            return false;
-        }
-        if (!iniciarIntentos("Cadna 2: ", contarSubcadenaEnCadena(cad2, subcad))) {
-            return false;
-        }
-        if (!iniciarIntentos("Cadna 3: ", contarSubcadenaEnCadena(cad3, subcad))) {
-            return false;
-        }
-        cad1 = cad1.replaceAll(subcad, " ");
-        cad2 = cad2.replaceAll(subcad, " ");
-        cad3 = cad3.replaceAll(subcad, " ");
-        System.out.println("Subcadena a buscar: " + subcadRev);
-        if (!iniciarIntentos("Cadna 1: ", contarSubcadenaEnCadena(cad1, subcadRev))) {
-            return false;
-        }
-        if (!iniciarIntentos("Cadna 2: ", contarSubcadenaEnCadena(cad2, subcadRev))) {
-            return false;
-        }
-        return iniciarIntentos("Cadna 3: ", contarSubcadenaEnCadena(cad3, subcadRev));
+    /**
+     * Muestra por pantalla una despedida
+     */
+    private static void finalizarPartida() throws InterruptedException {
+        imprimirPorCaracteres(Texto.DESPEDIDA);
+        imprimirPorLineas(Texto.ASCII_FIN);
     }
+    
+    
+    /*-------------- Métodos encargados de gestionar el input del usuario --------------*/
     
     /**
      * Comienza el número de intentos para que el usuario acierte el nivel
@@ -279,33 +269,52 @@ public class BolaDeDrac {
     }
     
     /**
-     * Muestra por pantalla una despedida
+     * Comienza el número de intentos para que el usuario acierte el número de repeticiones de la subcadena en las distintas cadenas
+     * @param cad1 cadena 1
+     * @param cad2 cadena 2
+     * @param cad3 cadena 3
+     * @param subcad subcadena a buscar
+     * @return si ha acertado o no
      */
-    private static void finalizarPartida() throws InterruptedException {
-        imprimirPorCaracteres("Adéu.");
-        imprimirPorLineas(Texto.ASCII_FIN);
-    }
-
-    /**
-     * Calcula el mínimo común múltiplo de dos números
-     * @param a número 1
-     * @param b número 2
-     * @return mcm resultante
-     */
-    private static int calcularMCM(int a, int b) {
-        int num1 = a;
-        int num2 = b;
-
-        do {
-            int resto = num1 % num2;
-            num1 = num2;
-            num2 = resto;
-            if (resto == 0) {
-                break;
+    private static boolean iniciarIntentos(String cad1, String cad2, String cad3, String subcad) throws InterruptedException {
+        String subcadRev = new StringBuilder(subcad).reverse().toString();
+        int resultado;
+        String cadena;
+        String subcadena;
+        
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
+                subcadena = subcad;
+            } else {
+                subcadena = subcadRev;
+                cad1 = cad1.replaceAll(subcad, " ");
+                cad2 = cad2.replaceAll(subcad, " ");
+                cad3 = cad3.replaceAll(subcad, " ");
             }
-        } while (true);
-
-        return a * b / num1;
+            imprimirPorCaracteres(String.format(Texto.LVL4_SUBCADENA, subcadena));
+            
+            for (int j = 1; j <= 3; j++) {
+                switch (j) {
+                    case 1:
+                        cadena = cad1;
+                        break;
+                    case 2:
+                        cadena = cad2;
+                        break;
+                    default:
+                        cadena = cad3;
+                        break;
+                }
+                
+                resultado = contarSubcadenaEnCadena(cadena, subcadena);
+                imprimirPorCaracteres(String.format(Texto.PISTA_ENTERO, resultado));
+                
+                if (!iniciarIntentos(String.format(Texto.LVL4_RESPUESTA, j), resultado)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -319,7 +328,7 @@ public class BolaDeDrac {
             if (input.hasNextInt()) {
                 return input.nextInt();
             }
-            imprimirPorCaracteres("Error! El tipus de dades introduït és incorrecte");
+            imprimirPorCaracteres(Texto.ERROR_VALIDACION);
             input.next();
         } while (true);
     }
@@ -335,7 +344,7 @@ public class BolaDeDrac {
             if (input.hasNext()) {
                 return input.next();
             }
-            imprimirPorCaracteres("Error! El tipus de dades introduït és incorrecte");
+            imprimirPorCaracteres(Texto.ERROR_VALIDACION);
             input.next();
         } while (true);
     }
@@ -350,7 +359,7 @@ public class BolaDeDrac {
         if (respuesta == resultado) {
             return true;
         }
-        imprimirPorCaracteres("Resposta incorrecta. Torna a intentar-ho.");
+        imprimirPorCaracteres(Texto.RESPUESTA_INCORRECTA);
         return false;
     }
 
@@ -364,12 +373,15 @@ public class BolaDeDrac {
         if (respuesta.equals(resultado)) {
             return true;
         }
-        imprimirPorCaracteres("Resposta incorrecta. Torna a intentar-ho.");
+        imprimirPorCaracteres(Texto.RESPUESTA_INCORRECTA);
         return false;
     }
 
+    
+    /*-------------- Métodos encargados de las mecánicas de los niveles --------------*/
+    
     /**
-     * Inicializa la 7 bolas del dragon
+     * Inicializa la 7 bolas del dragón
      */
     private static void generarBolas() {
         b1 = generarNumAleatorio(3, 1);
@@ -382,32 +394,16 @@ public class BolaDeDrac {
     }
 
     /**
-     * Genera una String alfanumérica de manera aleatorio y de la largaria indicada
+     * Genera una cadena de manera aleatorio a partir de los carácteres y de la largaria indicada
      * @param largo tamaño de la cadena
+     * @param carPosibles posibles carácteres que componen la cadena
      * @return cadena aleatoria
      */
-    private static String generarCadenaAlfanumerica(int largo) {
+    private static String generarCadena(int largo, String carPosibles) {
         StringBuilder cadena = new StringBuilder();
         do {
-            int random = generarNumAleatorio(122, 48);
-            if (random > 56 && random < 65 || random > 90 && random < 97) {
-                continue;
-            }
-            cadena.append((char) random);
-        } while (cadena.length() < largo);
-        return cadena.toString();
-    }
-
-    /**
-     * Genera una String únicamente de vocales de manera aleatorio y de la largaria indicada
-     * @param largo tamaño de la cadena
-     * @return cadena aleatoria de vocales
-     */
-    private static String generarCadenaVocales(int largo) {
-        StringBuilder cadena = new StringBuilder();
-        do {
-            int random = generarNumAleatorio(VOCALES.length() - 1, 0);
-            cadena.append(VOCALES.charAt(random));
+            int random = generarNumAleatorio(carPosibles.length() - 1, 0);
+            cadena.append(carPosibles.charAt(random));
         } while (cadena.length() < largo);
         return cadena.toString();
     }
@@ -470,7 +466,50 @@ public class BolaDeDrac {
         } while (numero == num1 || numero == num2 || numero == num3);
         return numero;
     }
+    
+    /**
+     * Cuenta las veces que se repite una subcadena dentro de una cadena
+     * @param texto cadena donde se realizará la busqueda
+     * @param car subcadena a buscar
+     * @return veces repetida
+     */
+    private static int contarSubcadenaEnCadena(String texto, String car) {
+        int cont = 0;
+        int indice = 0;
+        
+        while ((indice = texto.indexOf(car, indice)) != -1) {
+            indice += car.length();
+            cont++;
+        }
+        
+        return cont;
+    }
 
+    /**
+     * Calcula el mínimo común múltiplo de dos números
+     * @param a número 1
+     * @param b número 2
+     * @return mcm resultante
+     */
+    private static int calcularMCM(int a, int b) {
+        int num1 = a;
+        int num2 = b;
+
+        do {
+            int resto = num1 % num2;
+            num1 = num2;
+            num2 = resto;
+            if (resto == 0) {
+                break;
+            }
+        } while (true);
+
+        return a * b / num1;
+    }
+
+    
+    /*-------------- Métodos encargados de la parte visual del juego --------------*/
+    
     /**
      * Imprime por pantalla el texto carácter a carácter, como si fuese una máquina de escribir
      * @param texto mensaje a mostrar por pantalla
